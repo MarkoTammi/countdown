@@ -1,22 +1,35 @@
 
-//console.log("config.js alkaa")
+let testi = localStorage.getItem('countdown');
+console.log(testi);
 
+//lomakkeen esitäyttö jos localStoragessa on arvoja
+if (localStorage.getItem('countdown')) {
+    let jsString = localStorage.getItem('countdown');
+    let taulukko = JSON.parse(jsString);
+    console.log(taulukko);
+    document.getElementById("otsikko").value = taulukko.otsikko;
+    document.getElementById("pva").value = taulukko.vuosi + "-" + taulukko.kk + "-" + taulukko.pva;
+    document.getElementById("klo").value = taulukko.ho + ":" + taulukko.mi;
+    document.getElementById("viesti").value = taulukko.viesti;
+}
+
+//tapahtumakäsittelijä "aseta" painonapille
 document.getElementById("config-form").onsubmit = function(event){
     readInputs(event);
     return false;
 }
 
+// funktio lukee formin ja tallentaa sen json muodossa localStorageen
 function readInputs(event){
-//     var otsikko = document.getElementById("otsikko").value;
-  //  console.log("ot - " + otsikko);
-    
+    //console.log("ot - " + otsikko);
+    //console.log(event.target.elements);
     let otsikko = event.target.elements['otsikko'].value;
     let aika = event.target.elements['pva'].value;
     let klo = event.target.elements['klo'].value;
     let viesti = event.target.elements['viesti'].value;
 
     //console.log(otsikko + pva + klo + viesti);
-    console.log(event.target.elements);
+    //console.log(event.target.elements);
 
     let vuosi = aika.slice(0, 4);
     let kk = aika.slice(5,7);
@@ -35,8 +48,9 @@ function readInputs(event){
         viesti: viesti
     };
 
-    console.log(taulukko);
+    //console.log(taulukko);
     jsString = JSON.stringify(taulukko);
-    console.log(jsString);
+    //console.log(jsString);
     localStorage.setItem('countdown',jsString);
+    location.replace("index.html");
 }
